@@ -5,7 +5,7 @@ We anticipate that the pipeline will also be used to process other prescription 
 
 PRESNER combines a deep learning model trained with manually annoted clinical notes and UKB prescription entries, drug dictionaries extracted from the ChEMBL database and manually created resources and rules.
 
-### Usage
+## Usage
 
 To use the PRESNER pipeline, you can choose one of the following options:
 
@@ -16,7 +16,7 @@ To use the PRESNER pipeline, you can choose one of the following options:
 
    This software contains source code provided by NVIDIA Corporation.
 
-#### Running PRESNER:
+## Running PRESNER:
 In case 1, use:
 
 `python PRESNER.py -i <Input data file path> -o <Output folder> -m <Method 1> ... <Method n> [-s] [-gpu] [-n_jobs] <Jobs for parallel execution> [-bs] <Data batch size>`
@@ -28,7 +28,7 @@ In case 2, use:
 Arguments between `[]` are optional, and their default values are as follows:
 
 - --nv: Flag that enables access to GPUs within a Singularity container; if not used, the default value will be False.
-- -s, --get_atc_systemic: `False`. Flag to indicate if you want to get ATC and systemic data
+- -s, --get_atc_systemic: `False`. Flag to indicate if you want to get ATC and systemic data classification.
 - -gpu, --use_gpu: `False`. Flag to indicate if you want to use GPU acceleration; if not used, the default value will be False.
 - -n_jobs, --n_jobs: `8`. Number of jobs for parallel execution.
 - -bs, --batch_size: `128`. Data batch size to be inferred
@@ -39,7 +39,7 @@ e.g. (case 1): `python PRESNER.py -i data.txt -o output_folder -m cbb chembl -s 
 
 e.g. (case 2): `singularity run --nv PRESNER.sif -i data.txt -o output_folder -m cbb chembl -s -gpu -n_jobs 4 -bs 32`
 
-#### Input Data Description:
+## Input Data Description:
 
 The input data are in a text file (extension `.txt`) and follow the following format:
 
@@ -50,8 +50,6 @@ The input data are in a text file (extension `.txt`) and follow the following fo
 - The rest of the rows contain the texts of the prescriptions, where each row represents a different prescription.
 - In case a prescription has additional information on the drug's quantity, this information can be included in an extra second column, just like the header, using the tabulation (`\t`) as a separator.
 
-##### Example of the format
-
 An example of the format of the input data is shown below:
 
 |drug_name|quantity|
@@ -60,7 +58,7 @@ An example of the format of the input data is shown below:
 |Erythromycin 250 mg gastro - resistant tablets|56 tablets -250 mg|
 |Clotrimazole 1% cream|20 grams - 1 %|
 
-#### Results:
+## Results:
 
 The following results are stored in the specified folder `<Output folder>`:
 
@@ -69,18 +67,14 @@ The following results are stored in the specified folder `<Output folder>`:
   
 ![alt text](https://github.com/mariaheza/CLINICAL_DRUGS_NER/blob/main/PRESNER/images/Results.png?raw=true)
 
-In the case of running PRESNER with the -s argument to indicate whether you want to obtain ATC codes and classification into systemic and non-systemic drugs:
-
-![alt text](https://github.com/mariaheza/CLINICAL_DRUGS_NER/blob/main/PRESNER/images/Results.png?raw=true)
-
-#### Run from jupyter notebook:
+## Run from jupyter notebook:
 
 PRESNER.py can be run directly from jupyter notebook. The results are stored in `<output_folder>`.
 
 e.g.: `!python "<data.txt>" "<output_folder>" "cbb" "chembl"`
 
-Moreover, PRESNER can display results in memory as follows:
+Moreover, PRESNER can display results in memory, allowing slices and indices to access different dataframe rows. In addition, you can perform masked searches on indexes such as: `beauty_result[beauty_result.df.apply(lambda row: 'amoxicillin' in row['DRUG'], axis=1)]`:
   
-![alt text](https://github.com/mariaheza/CLINICAL_DRUGS_NER/blob/main/PRESNER/images/Beauty.png?raw=true)
+![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/Beauty.png?raw=true)
 
-Warning: beauty_display shows all rows indicated in "result". If result contains a large number of rows, it is preferable to display small subsets.
+In the case of running PRESNER with the -s argument, you can use the "select_systemic" function to filter out the systemic ones and observe the allocation of ATC codes. Note that different ATC codes are assigned to each drug, indicating those with higher confidence in the "preferred" column.
