@@ -10,7 +10,7 @@ PRESNER combines a deep learning model trained with manually annoted clinical no
 To use the PRESNER pipeline, you can choose one of the following options:
 
 1) Clone the repository and use the requirements.txt file to install all dependencies (recommended to use a virtual environment).
-2) Use singularity to work with a container. To get the container type:
+2) Use singularity to work with a container:
 
    `singularity pull library://ccolonruiz/embl-ebi/presner:11.2.2-ubuntu20.04`
 
@@ -67,14 +67,18 @@ The following results are stored in the specified folder `<Output folder>`:
   
 ![alt text](https://github.com/mariaheza/CLINICAL_DRUGS_NER/blob/main/PRESNER/images/Results.png?raw=true)
 
-## Run from jupyter notebook:
+## Run from Jupyter Notebook:
 
-PRESNER.py can be run directly from jupyter notebook. The results are stored in `<output_folder>`.
+When using PRESNER in both options, whether it's within a virtual environment or a Singularity container, Jupyter Notebook can effectively display results by highlighting text entities through the beauty_display class, which you can import with: `from display import beauty_display`.
 
-e.g.: `!python "<data.txt>" "<output_folder>" "cbb" "chembl"`
+In the container environment, you have the added convenience of running Jupyter Notebook with the following command, for example:
 
-Moreover, PRESNER can display results in memory, allowing slices and indices to access different dataframe rows. In addition, you can perform masked searches on indexes such as: `beauty_result[beauty_result.df.apply(lambda row: 'amoxicillin' in row['DRUG'], axis=1)]`:
-  
-![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/Beauty.png?raw=true)
+`singularity run PRESNER.sif notebook --ip 0.0.0.0 --port 8887`
 
-In the case of running PRESNER with the -s argument, you can use the "select_systemic" function to filter out the systemic ones and observe the allocation of ATC codes. Note that different ATC codes are assigned to each drug, indicating those with higher confidence in the "preferred" column.
+Furthermore, the beauty_display class facilitates the exploration of results by enabling the use of slices and indices to access different dataframe rows. Additionally, it empowers you to perform masked searches on indexes, as exemplified here `beauty_result[beauty_result.df.apply(lambda row: 'amoxicillin' in row['DRUG'], axis=1)]`:
+
+
+
+In the case of running PRESNER with the -s argument, you can use the "select_systemic" function to filter out the systemic ones and observe the allocation of ATC codes. 
+Note that different ATC codes are assigned to each drug, indicating those with higher confidence in the "preferred" column:
+
