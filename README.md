@@ -12,18 +12,31 @@ To use the PRESNER pipeline, you can choose one of the following options:
 1) Clone the repository and use the requirements.txt file to install all dependencies (recommended to use a virtual environment).
 2) Use singularity to work with a container:
 
-   `singularity pull library://ccolonruiz/embl-ebi/presner:11.2.2-ubuntu20.04`
+   ```
+   singularity pull library://ccolonruiz/embl-ebi/presner:11.2.2-ubuntu20.04
+   ```
 
    This software contains source code provided by NVIDIA Corporation.
 
 ## Running PRESNER:
 In case 1, use:
 
-`python PRESNER.py -i <Input data file path> -o <Output folder> -m <Method 1> ... <Method n> [-s] [-gpu] [-n_jobs] <Jobs for parallel execution> [-bs] <Data batch size>`
+```
+python PRESNER.py \
+	-i <Input data file path> \
+	-o <Output folder> \
+	-m <Method 1> ... <Method n> \
+	[-s] [-gpu] [-n_jobs] <Jobs for parallel execution> [-bs] <Data batch size>
+```
 
 In case 2, use:
 
-`singularity run [--nv] PRESNER.sif -i <Input data file path> -o <Output folder> -m <Method 1> ... <Method n> [-s] [-gpu] [-n_jobs] <Jobs for parallel execution> [-bs] <Data batch size>`
+```
+singularity run [--nv] PRESNER.sif \
+	-i <Input data file path> \
+	-o <Output folder> -m <Method 1> ... <Method n> \
+	[-s] [-gpu] [-n_jobs] <Jobs for parallel execution> [-bs] <Data batch size>
+```
 
 Arguments between `[]` are optional, and their default values are as follows:
 
@@ -35,9 +48,15 @@ Arguments between `[]` are optional, and their default values are as follows:
 
 Methods from -m can be: 'cbb', 'med7_trf', 'med7_lg' and/or 'chembl'.
 
-e.g. (case 1): `python PRESNER.py -i data.txt -o output_folder -m cbb chembl -s -gpu -n_jobs 4 -bs 32`
+e.g. (case 1): 
+```
+python PRESNER.py -i data.txt -o output_folder -m cbb chembl -s -gpu -n_jobs 4 -bs 32
+```
 
-e.g. (case 2): `singularity run --nv PRESNER.sif -i data.txt -o output_folder -m cbb chembl -s -gpu -n_jobs 4 -bs 32`
+e.g. (case 2): 
+```
+singularity run --nv PRESNER.sif -i data.txt -o output_folder -m cbb chembl -s -gpu -n_jobs 4 -bs 32
+```
 
 ## Input Data Description:
 
@@ -65,7 +84,7 @@ The following results are stored in the specified folder `<Output folder>`:
 - result.json: Shows the processed texts, the matched entities and the original texts from the columns "drug_name" and "quantity".
 - span.pkl: Shows the entities, entity type and their offsets in the processed texts of a given index.
   
-![alt text](https://github.com/mariaheza/CLINICAL_DRUGS_NER/blob/main/PRESNER/images/Results.png?raw=true)
+![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_ns_no_beauty.png?raw=true)
 
 ## Run from Jupyter Notebook:
 
@@ -77,7 +96,7 @@ In the container environment, you have the added convenience of running Jupyter 
 
 Furthermore, the beauty_display class facilitates the exploration of results by enabling the use of slices and indices to access different dataframe rows. Additionally, it empowers you to perform masked searches on indexes, as exemplified here `beauty_result[beauty_result.df.apply(lambda row: 'amoxicillin' in row['DRUG'], axis=1)]`:
 
-
+![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_ns.png?raw=true)
 
 In the case of running PRESNER with the -s argument, you can use the "select_systemic" function to filter out the systemic ones and observe the allocation of ATC codes. 
 Note that different ATC codes are assigned to each drug, indicating those with higher confidence in the "preferred" column:
