@@ -20,7 +20,7 @@ From: nvidia/cuda:11.2.2-cudnn8-runtime-ubuntu20.04
 %runscript
 	if [ "$1" = "notebook" ]; then
 		shift
-		jupyter notebook --ip 0.0.0.0 "$@"
+		jupyter notebook --no-browser "$@"
 	else
 		python3 /opt/PRESNER.py "$@"
 	fi 
