@@ -2,25 +2,25 @@ Bootstrap: docker
 From: nvidia/cuda:11.2.2-cudnn8-runtime-ubuntu20.04
 
 %environment
-	export PYTHONPATH=/opt/Utils:$PYTHONPATH
+        export PYTHONPATH=/opt/Utils:$PYTHONPATH
 
 %files
-	get-pip.py
-	PRESNER.def
-	requirements.txt
-	PRESNER_dir/* /opt/
+        get-pip.py
+        PRESNER.def
+        requirements.txt
+        PRESNER_dir/* /opt/
 
 %post
-	export DEBIAN_FRONTEND=noninteractive && apt-get update && \
-	apt-get install -y --no-install-recommends python3.9 python3-distutils && \
-	update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 && \
-	python3 get-pip.py && rm get-pip.py && apt-get clean && \
-	pip install --no-cache-dir -r requirements.txt -f https://download.pytorch.org/whl/cu111/torch_stable.html
+        export DEBIAN_FRONTEND=noninteractive && apt-get update && \
+        apt-get install -y --no-install-recommends python3.9 python3-distutils libgomp1 && \
+        update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 && \
+        python3 get-pip.py && rm get-pip.py && apt-get clean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/* && \
+        pip install --no-cache-dir -r requirements.txt -f https://download.pytorch.org/whl/cu111/torch_stable.html
 
 %runscript
-	if [ "$1" = "notebook" ]; then
-		shift
-		jupyter notebook --no-browser "$@"
-	else
-		python3 /opt/PRESNER.py "$@"
-	fi 
+        if [ "$1" = "notebook" ]; then
+                shift
+                jupyter notebook --no-browser "$@"
+        else
+                python3 /opt/PRESNER.py "$@"
+        fi
