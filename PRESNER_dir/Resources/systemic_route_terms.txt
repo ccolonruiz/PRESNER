@@ -1,0 +1,46 @@
+TEXT
+oral
+injection
+transdermal
+inhalation
+sublingual
+inh
+orodispersible
+hypodermic
+inj
+aerosol
+buccal
+inhal
+rectal
+injections
+implant
+oromucosal paste
+chewing gum
+intradermal
+intramuscular
+inhale
+iv
+nitrolingual
+subcutaneous
+oromucosal
+intravenous
+po
+disposable injection
+syring
+disposable syringe
+rectal tube
+inhaler
+rectal tubes
+subdermal
+rectal oin
+inject
+disposable pen
+sucking tablets
+infant drops
+inhalation inhaler
+intal inhaler
+syringe
+inhalator
+conc injection
+intraarticular
+sublingual tab
