@@ -69,6 +69,10 @@ The following results are stored in the specified folder `<Output folder>`:
   
 ![alt text](https://github.com/mariaheza/CLINICAL_DRUGS_NER/blob/main/PRESNER/images/Results.png?raw=true)
 
+In the case of running PRESNER with the -s argument to indicate whether you want to obtain ATC codes and classification into systemic and non-systemic drugs:
+
+![alt text](https://github.com/mariaheza/CLINICAL_DRUGS_NER/blob/main/PRESNER/images/Results.png?raw=true)
+
 #### Run from jupyter notebook:
 
 PRESNER.py can be run directly from jupyter notebook. The results are stored in `<output_folder>`.
