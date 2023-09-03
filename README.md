@@ -3,30 +3,62 @@
 A name entity recognition (NER) and processing pipeline for Electronic Health Records (EHR) prescription data tailored to the needs of the human genetics research community working with UK Biobank (UKB). \
 We anticipate that the pipeline will also be used to process other prescription datasets, such as CPRD data or hospital EHR datasets.
 
-
 PRESNER combines a deep learning model trained with manually annoted clinical notes and UKB prescription entries, drug dictionaries extracted from the ChEMBL database and manually created resources and rules.
 
 ### Usage
 
-To run the PRESNER pipeline, use:
+To use the PRESNER pipeline, you can choose one of the following options:
 
-`python PRESNER.py <Input data file path> <Output folder> <Method 1> ... <Method n>`
+1) Clone the repository and use the requirements.txt file to install all dependencies (recommended to use a virtual environment).
+2) Use singularity to work with a container. To get the container type:
 
-Methods can be: 'cbb', 'med7_trf', 'med7_lg' and/or 'chembl'.
+   `singularity pull library://ccolonruiz/embl-ebi/presner:11.2.2-ubuntu20.04`
 
-e.g.: `python data.txt output_folder cbb chembl`
+   This software contains source code provided by NVIDIA Corporation.
 
-#### Configuration settings:
+#### Running PRESNER:
+In case 1, use:
 
-The file PRESNER.py contains the following values:
+`python PRESNER.py -i <Input data file path> -o <Output folder> -m <Method 1> ... <Method n> [-s] [-gpu] [-n_jobs] <Jobs for parallel execution> [-bs] <Data batch size>`
 
-- GPU: Default value "False". To run using GPU set to "True".
-- METHODS_N_JOBS: Number of jobs for parallel execution of the methods. Use function get_all_results_parallel instead of get_all_results.
-- MERGE_N_JOBS: Number of jobs for parallel execution of the results union.
-- CBB_N_JOBS: Number of jobs for parallel execution of data processing for the CBB model.
-- CBB_BATH_SIZE: Data batch size to be inferred by the CBB model.
+In case 2, use:
 
-#### Input data format:
+`singularity run [--nv] PRESNER.sif -i <Input data file path> -o <Output folder> -m <Method 1> ... <Method n> [-s] [-gpu] [-n_jobs] <Jobs for parallel execution> [-bs] <Data batch size>`
+
+Arguments between `[]` are optional, and their default values are as follows:
+
+- --nv: Flag that enables access to GPUs within a Singularity container; if not used, the default value will be False.
+- -s, --get_atc_systemic: `False`. Flag to indicate if you want to get ATC and systemic data
+- -gpu, --use_gpu: `False`. Flag to indicate if you want to use GPU acceleration; if not used, the default value will be False.
+- -n_jobs, --n_jobs: `8`. Number of jobs for parallel execution.
+- -bs, --batch_size: `128`. Data batch size to be inferred
+
+Methods from -m can be: 'cbb', 'med7_trf', 'med7_lg' and/or 'chembl'.
+
+e.g. (case 1): `python PRESNER.py -i data.txt -o output_folder -m cbb chembl -s -gpu -n_jobs 4 -bs 32`
+
+e.g. (case 2): `singularity run --nv PRESNER.sif -i data.txt -o output_folder -m cbb chembl -s -gpu -n_jobs 4 -bs 32`
+
+#### Input Data Description:
+
+The input data are in a text file (extension `.txt`) and follow the following format:
+
+- The text file has two columns as a header, separated by a tabulation (`\t`):
+	- "drug_name": This column might contain the text with the name of the prescribed medicinal product.
+	- "quantity": This column might contain information on the quantity of the prescribed medicine.
+
+- The rest of the rows contain the texts of the prescriptions, where each row represents a different prescription.
+- In case a prescription has additional information on the drug's quantity, this information can be included in an extra second column, just like the header, using the tabulation (`\t`) as a separator.
+
+##### Example of the format
+
+An example of the format of the input data is shown below:
+
+|drug_name|quantity|
+|-----------|-----------|
+|Amoxicillin 500 mg capsules|21|
+|Erythromycin 250 mg gastro - resistant tablets|56 tablets -250 mg|
+|Clotrimazole 1% cream|20 grams - 1 %|
 
 #### Results:
 
@@ -48,26 +80,3 @@ Moreover, PRESNER can display results in memory as follows:
 ![alt text](https://github.com/mariaheza/CLINICAL_DRUGS_NER/blob/main/PRESNER/images/Beauty.png?raw=true)
 
 Warning: beauty_display shows all rows indicated in "result". If result contains a large number of rows, it is preferable to display small subsets.
-
-### Requirements:
-
-[Python](https://www.python.org/) (PRESNER was tested with Python version >=3.9.7) 
-
-#### Relevant software libraries employed:
-
-- [Tensorflow](https://www.tensorflow.org/?hl=es-419) (version 2.7.0)
-- [Tensorflow-addons](https://www.tensorflow.org/addons?hl=es-419) (version 0.16.1)
-- [Spacy](https://spacy.io/) (version 3.1.5)
-- [Transformers](https://pypi.org/project/transformers/) (version 4.20.1)
-- [en_core_med7_trf](https://github.com/kormilitzin/med7) (version 3.1.3.1)
-- [en_core_med7_lg](https://github.com/kormilitzin/med7) (version 3.1.3.1)
-- [Pandas](https://pandas.pydata.org/docs/index.html) (version 1.4.1)
-- [Numpy](https://numpy.org/) (version 1.21.2)
-- [Sklearn](https://scikit-learn.org/stable/#) (version 1.0.2)
-- [Joblib](https://joblib.readthedocs.io/en/latest/) (version 1.1.0)
-- [Srsly](https://pypi.org/project/srsly/) (version 2.4.1)
-- [Tqdm](https://pypi.org/project/tqdm/) (version 4.63.0)
-- [Yaml](https://pypi.org/project/PyYAML/) (version 6.0)
-
-If you use jupyter notebook to visualise the results with beauty_display:
-- [IPython](https://ipython.org/) (tested with version 8.1.1)
