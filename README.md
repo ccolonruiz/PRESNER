@@ -49,12 +49,12 @@ Arguments between `[]` are optional, and their default values are as follows:
 Methods from -m can be: 'cbb', 'med7_trf', 'med7_lg' and/or 'chembl'.
 
 e.g. (case 1): 
-```
+```bash
 python PRESNER.py -i data.txt -o output_folder -m cbb chembl -s -gpu -n_jobs 4 -bs 32
 ```
 
 e.g. (case 2): 
-```
+```bash
 singularity run --nv PRESNER.sif -i data.txt -o output_folder -m cbb chembl -s -gpu -n_jobs 4 -bs 32
 ```
 
@@ -92,12 +92,16 @@ When using PRESNER in both options, whether it's within a virtual environment or
 
 In the container environment, you have the added convenience of running Jupyter Notebook with the following command, for example:
 
-`singularity run PRESNER.sif notebook --ip 0.0.0.0 --port 8887`
-
-Furthermore, the beauty_display class facilitates the exploration of results by enabling the use of slices and indices to access different dataframe rows. Additionally, it empowers you to perform masked searches on indexes, as exemplified here `beauty_result[beauty_result.df.apply(lambda row: 'amoxicillin' in row['DRUG'], axis=1)]`:
-
-![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_ns.png?raw=true)
+```bash
+singularity run PRESNER.sif notebook --ip 0.0.0.0 --port 8887
+```
 
 In the case of running PRESNER with the -s argument, you can use the "select_systemic" function to filter out the systemic ones and observe the allocation of ATC codes. 
 Note that different ATC codes are assigned to each drug, indicating those with higher confidence in the "preferred" column:
 
+![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_ns_no_beauty.png?raw=true)
+![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_ns.png?raw=true)
+![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_s_no_beauty.png?raw=true)
+![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_s.png?raw=true)
+![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_s_ssf.png?raw=true)
+![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_s_sst.png?raw=true)
