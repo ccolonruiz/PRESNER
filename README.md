@@ -25,7 +25,6 @@ To use the PRESNER pipeline, you can choose one of the following options:
    singularity pull library://ccolonruiz/embl-ebi/presner:11.2.2-ubuntu20.04
    mv ./presner:11.2.2-ubuntu20.04.sif ./PRESNER.sif
    ```
-
    This software contains source code provided by NVIDIA Corporation. ([NVIDIA Deep learning Container License](https://developer.download.nvidia.com/licenses/NVIDIA_Deep_Learning_Container_License.pdf?t=eyJscyI6ImdzZW8iLCJsc2QiOiJodHRwczovL3d3dy5nb29nbGUuY29tLyJ9)).
 
 ## Running PRESNER:
