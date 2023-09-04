@@ -15,7 +15,6 @@ To use the PRESNER pipeline, you can choose one of the following options:
    git clone https://github.com/ccolonruiz/PRESNER.git
    cd ./PRESNER/PRESNER_dir
    conda create -y -n PRESNER python=3.9
-   # If you want to use GPU acceleration, you must install the appropriate version of CUDA Toolkit 11.2 for your system.
    pip install --no-cache-dir -r requirements.txt -f https://download.pytorch.org/whl/cu111/torch_stable.html
    ```
    Optional: If you want to use GPU acceleration, you must install the appropriate version of [CUDA Toolkit 11.2](https://developer.nvidia.com/cuda-11.2.0-download-archive) for your system.
@@ -80,7 +79,7 @@ The input data are in a text file (extension `.txt`) and follow the following fo
 - The rest of the rows contain the texts of the prescriptions, where each row represents a different prescription.
 - In case a prescription has additional information on the drug's quantity, this information can be included in an extra second column, just like the header, using the tabulation (`\t`) as a separator.
 
-An example of the format of the input data is shown below:
+An example of the data input format is shown below, and examples can also be found in the [datasets](https://github.com/ccolonruiz/PRESNER/tree/main/datasets) folder:
 
 |drug_name|quantity|
 |-----------|-----------|
