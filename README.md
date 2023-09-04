@@ -15,6 +15,7 @@ To use the PRESNER pipeline, you can choose one of the following options:
    git clone https://github.com/ccolonruiz/PRESNER.git
    cd ./PRESNER/PRESNER_dir
    conda create -y -n PRESNER python=3.9
+   conda activate PRESNER
    pip install --no-cache-dir -r requirements.txt -f https://download.pytorch.org/whl/cu111/torch_stable.html
    ```
    Optional: If you want to use GPU acceleration, you must install the appropriate version of [CUDA Toolkit 11.2](https://developer.nvidia.com/cuda-11.2.0-download-archive) for your system.
