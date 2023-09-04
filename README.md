@@ -40,8 +40,8 @@ singularity run [--nv] PRESNER.sif \
 
 Arguments between `[]` are optional, and their default values are as follows:
 
-- --nv: Flag that enables access to GPUs within a Singularity container; if not used, the default value will be False.
-- -s, --get_atc_systemic: `False`. Flag to indicate if you want to get ATC and systemic data classification.
+- --nv: `False`. Flag that enables access to GPUs within a Singularity container; if not used, the default value will be False.
+- -s, --get_atc_systemic: `False`. Flag to indicate if you want to get ATC codes and systemic data classification.
 - -gpu, --use_gpu: `False`. Flag to indicate if you want to use GPU acceleration; if not used, the default value will be False.
 - -n_jobs, --n_jobs: `8`. Number of jobs for parallel execution.
 - -bs, --batch_size: `128`. Data batch size to be inferred
@@ -88,20 +88,50 @@ The following results are stored in the specified folder `<Output folder>`:
 
 ## Run from Jupyter Notebook:
 
-When using PRESNER in both options, whether it's within a virtual environment or a Singularity container, Jupyter Notebook can effectively display results by highlighting text entities through the beauty_display class, which you can import with: `from display import beauty_display`.
-
-In the container environment, you have the added convenience of running Jupyter Notebook with the following command, for example:
+When PRESNER is used in both options within a virtual environment or a Singularity container, Jupyter Notebook can effectively display the results by highlighting the text entities using the `beauty_display` class of the [display.py](https://github.com/ccolonruiz/PRESNER/blob/main/PRESNER_dir/Utils/display.py) script. Using the Singularity container, you can run Jupyter Notebook using the `notebook` argument. In addition, you can specify the rest of the arguments that you would normally specify when starting Jupyter Notebook. For example:
 
 ```bash
 singularity run PRESNER.sif notebook --ip 0.0.0.0 --port 8887
 ```
+Once inside the notebook, to display the highlighted texts, you must read the files described in the result section and use them to create an object of the beauty_display class:
 
-In the case of running PRESNER with the -s argument, you can use the "select_systemic" function to filter out the systemic ones and observe the allocation of ATC codes. 
-Note that different ATC codes are assigned to each drug, indicating those with higher confidence in the "preferred" column:
+```python
+import pandas as pd
+from display import beauty_display
+result = pd.read_json("/path/to/result.json")
+span = pd.read_pickle("/path/to/span.pkl")
+beauty = beauty_display(result, span, "TEXT", n_jobs=8)
+beauty[:10]
+```
+The above code will display a table like the following:
 
-![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_ns_no_beauty.png?raw=true)
 ![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_ns.png?raw=true)
-![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_s_no_beauty.png?raw=true)
-![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_s.png?raw=true)
+
+## ATC codes and systemic data classification:
+
+In the case of running PRESNER with the `[-s]` argument, you can use the "select_systemic" function of the [systemic_drug_classifier.py](https://github.com/ccolonruiz/PRESNER/blob/main/PRESNER_dir/Utils/systemic_drug_classifier.py) script to filter out the systemic drugs and observe the allocation of ATC codes: 
+
+```python
+from systemic_drug_classifier import select_systemic
+systemic_result = select_systemic(result, preferred=False)
+beauty = beauty_display(systemic_result, span, "TEXT", n_jobs=8)
+beauty[:10]
+```
+
+If you use `preferred=False`, note that different ATC codes are assigned to each drug, indicating those with higher confidence in the "preferred" column:
+
 ![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_s_ssf.png?raw=true)
+
+If you use `preferred=True`, only the ATC codes assigned with the highest confidence will be displayed:
+
 ![alt text](https://github.com/ccolonruiz/PRESNER/blob/main/images/df_s_sst.png?raw=true)
+
+## Use of beauty_display objects:
+
+The beauty_display objects consist mainly of a pandas dataframe of result.json enriched with HTML and CSS. As such, slices or indices can access the different rows. For example:
+
+```python
+beauty[:10] # Displays the first 10 rows
+beauty[5] # Displays the fifth row
+beauty[beauty.df['atc_code'] == 'J01CA04'] # Displays all rows whose prescriptions contain drugs with the ATC code J01CA04
+```
