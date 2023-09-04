@@ -10,13 +10,24 @@ PRESNER combines a deep learning model trained with manually annoted clinical no
 To use the PRESNER pipeline, you can choose one of the following options:
 
 1) Clone the repository and use the requirements.txt file to install all dependencies (recommended to use a virtual environment).
+   
+   ```
+   git clone https://github.com/ccolonruiz/PRESNER.git
+   cd ./PRESNER/PRESNER_dir
+   conda create -y -n PRESNER python=3.9
+   # If you want to use GPU acceleration, you must install the appropriate version of CUDA Toolkit 11.2 for your system.
+   pip install --no-cache-dir -r requirements.txt -f https://download.pytorch.org/whl/cu111/torch_stable.html
+   ```
+   Optional: If you want to use GPU acceleration, you must install the appropriate version of [CUDA Toolkit 11.2](https://developer.nvidia.com/cuda-11.2.0-download-archive) for your system.
+   
 2) Use singularity to work with a container:
 
    ```
    singularity pull library://ccolonruiz/embl-ebi/presner:11.2.2-ubuntu20.04
+   mv ./presner:11.2.2-ubuntu20.04.sif ./PRESNER.sif
    ```
 
-   This software contains source code provided by NVIDIA Corporation.
+   This software contains source code provided by NVIDIA Corporation. ([NVIDIA Deep learning Container License](https://developer.download.nvidia.com/licenses/NVIDIA_Deep_Learning_Container_License.pdf?t=eyJscyI6ImdzZW8iLCJsc2QiOiJodHRwczovL3d3dy5nb29nbGUuY29tLyJ9)).
 
 ## Running PRESNER:
 In case 1, use:
@@ -26,7 +37,7 @@ python PRESNER.py \
 	-i <Input data file path> \
 	-o <Output folder> \
 	-m <Method 1> ... <Method n> \
-	[-s] [-gpu] [-n_jobs] <Jobs for parallel execution> [-bs] <Data batch size>
+	[-s] [-gpu] [-n_jobs] <Jobs for parallel execution> [-bs] <Data batch size to be inferred>
 ```
 
 In case 2, use:
@@ -35,7 +46,7 @@ In case 2, use:
 singularity run [--nv] PRESNER.sif \
 	-i <Input data file path> \
 	-o <Output folder> -m <Method 1> ... <Method n> \
-	[-s] [-gpu] [-n_jobs] <Jobs for parallel execution> [-bs] <Data batch size>
+	[-s] [-gpu] [-n_jobs] <Jobs for parallel execution> [-bs] <Data batch size to be inferred>
 ```
 
 Arguments between `[]` are optional, and their default values are as follows:
@@ -109,7 +120,7 @@ The above code will display a table like the following:
 
 ## ATC codes and systemic data classification:
 
-In the case of running PRESNER with the `[-s]` argument, you can use the "select_systemic" function of the [systemic_drug_classifier.py](https://github.com/ccolonruiz/PRESNER/blob/main/PRESNER_dir/Utils/systemic_drug_classifier.py) script to filter out the systemic drugs and observe the allocation of ATC codes: 
+In the case of running PRESNER with the `[-s]` argument ('methods' must include 'chembl' and at least one of the other options), you can use the "select_systemic" function of the [systemic_drug_classifier.py](https://github.com/ccolonruiz/PRESNER/blob/main/PRESNER_dir/Utils/systemic_drug_classifier.py) script to filter out the systemic drugs and observe the allocation of ATC codes: 
 
 ```python
 from systemic_drug_classifier import select_systemic
