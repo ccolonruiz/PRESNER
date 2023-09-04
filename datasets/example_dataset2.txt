@@ -1,0 +1,4 @@
+drug_name	quantity
+Amoxicillin 500 mg capsules
+Erythromycin 250 mg gastro - resistant tablets
+Clotrimazole 1% cream
