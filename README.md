@@ -1,7 +1,7 @@
 # PRESNER
 
 This repository contains the first version of Automated Extraction and Classification of Drug Prescriptions in Electronic Health Records: Introducing the PRESNER Pipeline, 
-a name entity recognition (NER) and processing pipeline for Electronic Health Records (EHR) prescription data tailored to the needs of the human genetics research community working with UK Biobank (UKB). \
+a name entity recognition (NER) and processing pipeline for Electronic Health Records (EHR) prescription data tailored to the needs of the human genetics research community working with UK Biobank (UKB). 
 We anticipate that the pipeline will also be used to process other prescription datasets, such as CPRD data or hospital EHR datasets.
 
 PRESNER combines a deep learning model trained with manually annoted clinical notes and UKB prescription entries, drug dictionaries extracted from the ChEMBL database and manually created resources and rules.
