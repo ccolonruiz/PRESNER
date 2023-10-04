@@ -1,6 +1,7 @@
 # PRESNER
 
-A name entity recognition (NER) and processing pipeline for Electronic Health Records (EHR) prescription data tailored to the needs of the human genetics research community working with UK Biobank (UKB). \
+This repository contains the first version of Automated Extraction and Classification of Drug Prescriptions in Electronic Health Records: Introducing the PRESNER Pipeline, 
+a name entity recognition (NER) and processing pipeline for Electronic Health Records (EHR) prescription data tailored to the needs of the human genetics research community working with UK Biobank (UKB). \
 We anticipate that the pipeline will also be used to process other prescription datasets, such as CPRD data or hospital EHR datasets.
 
 PRESNER combines a deep learning model trained with manually annoted clinical notes and UKB prescription entries, drug dictionaries extracted from the ChEMBL database and manually created resources and rules.
@@ -144,4 +145,10 @@ The beauty_display objects consist mainly of a pandas dataframe of result.json e
 beauty[:10] # Displays the first 10 rows
 beauty[5] # Displays the fifth row
 beauty[beauty.df['atc_code'] == 'J01CA04'] # Displays all rows whose prescriptions contain drugs with the ATC code J01CA04
+```
+
+## Citing:
+If you found this work useful, please cite it as:
+```
+
 ```
