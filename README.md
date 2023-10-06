@@ -1,6 +1,6 @@
 # PRESNER
 
-This repository contains the first version of "Automated Extraction and Classification of Drug Prescriptions in Electronic Health Records: Introducing the PRESNER Pipeline".
+This repository contains the first version of [Automated Extraction and Classification of Drug Prescriptions in Electronic Health Records: Introducing the PRESNER Pipeline](https://doi.org/10.1101/2023.10.04.23296481)
 
 PRESNER is a name entity recognition (NER) and processing pipeline for Electronic Health Records (EHR) prescription data tailored to the needs of the human genetics research community working with UK Biobank (UKB). 
 We anticipate that the pipeline will also be used to process other prescription datasets, such as CPRD data or hospital EHR datasets.
