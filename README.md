@@ -158,3 +158,15 @@ beauty[:10] # Displays the first 10 rows
 beauty[5] # Displays the fifth row
 beauty[beauty.df['atc_code'] == 'J01CA04'] # Displays all rows whose prescriptions contain drugs with the ATC code J01CA04
 ```
+
+## Citing:
+If you found this work useful, please cite it as:
+```
+@article {ColnRuiz2023presner,
+	title = {Automated Extraction and Classification of Drug Prescriptions in Electronic Health Records: Introducing the PRESNER Pipeline},
+	author = {Crist{\'o}bal Col{\'o}n-Ruiz and Tomas W Fitzgerald and Isabel Segura-Bedmar and Ewan Birney and Maria Herrero-Zazo},
+	doi = {10.1101/2023.10.04.23296481},
+	journal = {medRxiv},
+	year = {2023}
+}
+```
